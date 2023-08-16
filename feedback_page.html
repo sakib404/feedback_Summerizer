@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Clicker+Script&family=Edu+NSW+ACT+Foundation&family=Poppins:wght@200;300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img class="logo" src="img/rsz_logo.png" alt="">
+        </div>
+
+        <ul class="navlist">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Team</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Feedback</a></li>
+        </ul>
+
+        <div class="bx bx-menu" id="menu-icon"></div>
+    </header><br><br>
+
+    <div class="feedback-box">
+        <h4>Leave a feedback:</h4>
+        <form action="#">
+            <textarea name="feedback" placeholder="Write your feedback..."></textarea>
+            <button type="submit">Post Feedback</button>
+            <div class="dropdown">
+                <button type="submit">Summarize Feedback</button>
+                <div class="dropdown-options">
+                    <a href="#">Last 1 hour</a>
+                    <a href="#">Last 24 Hours</a>
+                    <a href="#">Last Week</a>
+                    <a href="#">All</a>
+                </div>
+            </div>
+        </form><br><br>
+
+        <h4>Summery of Feedbacks:</h4>
+        <form action="#" class="summery-feedbacks">
+            <textarea name="feedback" placeholder=""></textarea>
+        </form>
+        <br>
+
+        <h4>Original Feedbacks:</h4>
+        <div class="original-feedbacks-container">
+            <!-- Feedbacks will be dynamically added here -->
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-database.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
