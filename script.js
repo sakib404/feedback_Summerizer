@@ -1,148 +1,150 @@
-let menu = document.querySelector('#menu-icon');
-let navlist = document.querySelector('.navlist');
+let menu = document.querySelector("#menu-icon");
+let navlist = document.querySelector(".navlist");
 
 menu.onclick = () => {
-    menu.classList.toggle('bx-x');
-    navlist.classList.toggle('open');
-}
+  menu.classList.toggle("bx-x");
+  navlist.classList.toggle("open");
+};
 
-const firebaseConfig = {
-    apiKey: "AIzaSyDsyiolTqg1JMOLoZsEMLJpy0kYjyiKAeM",
-    authDomain: "realtime-feedback-574f2.firebaseapp.com",
-    databaseURL: "https://realtime-feedback-574f2-default-rtdb.firebaseio.com",
-    projectId: "realtime-feedback-574f2",
-    storageBucket: "realtime-feedback-574f2.appspot.com",
-    messagingSenderId: "1058260520730",
-    appId: "1:1058260520730:web:39bef45870e49d0160e6a3",
-    measurementId: "G-TJ2KYL53NN"
-  };
-
-  firebase.initializeApp(firebaseConfig);
-  const database = firebase.database();
-
-// Function to post feedback to Firebase
-function postFeedback() {
-  event.preventDefault(); // Prevent form submission
-
-  const feedbackText = document.querySelector('textarea[name="feedback"]').value;
-  if (feedbackText.trim() !== '') {
-    const feedbackRef = database.ref('feedbacks');
-    const newFeedbackRef = feedbackRef.push();
-    newFeedbackRef.set({
-      feedback: feedbackText
-    });
-  }
-}
-
-// Function to update original feedbacks in the UI
-function updateOriginalFeedbacks(feedback) {
-  const feedbackContainer = document.querySelector('.original-feedbacks');
-  const feedbackElement = document.createElement('p');
-  feedbackElement.textContent = feedback;
-  feedbackContainer.appendChild(feedbackElement);
-}
-
-// Event listener for posting feedback
-document.querySelector('form').addEventListener('submit', postFeedback);
-
-// Firebase listener to get real-time updates of feedbacks
-database.ref('feedbacks').on('child_added', (snapshot) => {
-  const feedbackData = snapshot.val();
-  const feedbackText = feedbackData.feedback;
-  updateOriginalFeedbacks(feedbackText);
-});
-
-// Function to update original feedbacks in the UI
-function updateOriginalFeedbacks(feedbackData) {
-  const originalFeedbacksContainer = document.querySelector('.original-feedbacks-container');
-  const feedbackElement = document.createElement('div');
-  feedbackElement.classList.add('feedback');
-
-  const feedbackTextElement = document.createElement('p');
-  feedbackTextElement.textContent = feedbackData.feedback;
-
-  const timestampElement = document.createElement('p');
-  const formattedTimestamp = getFormattedTimestamp(feedbackData.timestamp);
-  timestampElement.textContent = `Posted at: ${formattedTimestamp}`;
-  timestampElement.classList.add('timestamp');
-
-  feedbackElement.appendChild(feedbackTextElement);
-  feedbackElement.appendChild(timestampElement);
-
-  originalFeedbacksContainer.appendChild(feedbackElement);
-}
-
-// Firebase listener to get real-time updates of feedbacks
-database.ref('feedbacks').on('child_added', (snapshot) => {
-  const feedbackData = snapshot.val();
-  updateOriginalFeedbacks(feedbackData);
-});
-  
-  // Function to get formatted timestamp from device's local date and time
-  function getFormattedTimestamp(timestamp) {
-    const date = new Date(timestamp);
-    return date.toLocaleString();
-  }
-
-// Function to post feedback to Firebase
-function postFeedback() {
-    event.preventDefault(); // Prevent form submission
-  
-    const feedbackText = document.querySelector('textarea[name="feedback"]').value;
-    if (feedbackText.trim() !== '') {
-      const feedbackRef = database.ref('feedbacks');
-      feedbackRef.push().set({
-        feedback: feedbackText,
-        timestamp: firebase.database.ServerValue.TIMESTAMP // Use Firebase server timestamp
-      });
-    }
-  }
-
-// Function to summarize and display feedbacks based on time range
-function summarizeFeedbacks(timeRange) {
-  const feedbacksRef = database.ref('feedbacks');
-  const currentTime = new Date().getTime(); // Current timestamp in milliseconds
-
-  // Calculate the start timestamp based on the selected time range
-  let startTime;
-  switch (timeRange) {
-    case 'last-1-hour':
-      startTime = currentTime - 3600000; // 1 hour in milliseconds
-      break;
-    case 'last-24-hours':
-      startTime = currentTime - 86400000; // 24 hours in milliseconds
-      break;
-    case 'last-week':
-      startTime = currentTime - 604800000; // 1 week in milliseconds
-      break;
-    default:
-      startTime = 0;
-  }
-
-  // Query the feedbacks within the selected time range from Firebase
-  const feedbacksQuery = feedbacksRef.orderByChild('timestamp');
-
-  // Retrieve the feedbacks and update the "Summary of Feedbacks" section
-  feedbacksQuery.once('value', (snapshot) => {
-    const feedbacksData = snapshot.val();
-    let summarizedFeedbacks = '';
-    for (const key in feedbacksData) {
-      const feedbackTimestamp = feedbacksData[key].timestamp;
-      if (feedbackTimestamp >= startTime && feedbackTimestamp <= currentTime) {
-        summarizedFeedbacks += feedbacksData[key].feedback + ' ';
-      }
-    }
-    document.querySelector('.summery-feedbacks textarea').value = summarizedFeedbacks;
-  });
-
-}
 
 // Event listener for dropdown menu options
-const dropdownOptions = document.querySelectorAll('.dropdown-options a');
+const dropdownOptions = document.querySelectorAll(".dropdown-options a");
 dropdownOptions.forEach((option) => {
-  option.addEventListener('click', (e) => {
-    const selectedTimeRange = e.target.getAttribute('data-time-range');
+  option.addEventListener("click", (e) => {
+    const selectedTimeRange = e.target.getAttribute("data-time-range");
     summarizeFeedbacks(selectedTimeRange);
   });
 });
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD_3SeJ3rop44pWxTOtc4R2ITZrkTzUxSk",
+  authDomain: "feedback-407a9.firebaseapp.com",
+  databaseURL: "https://feedback-407a9-default-rtdb.firebaseio.com",
+  projectId: "feedback-407a9",
+  storageBucket: "feedback-407a9.appspot.com",
+  messagingSenderId: "22405032694",
+  appId: "1:22405032694:web:fa98b4511d771cf28edad7",
+  measurementId: "G-3SCCLRVJBM"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const postFeedbackBtn = document.getElementById("post-feedback-btn");
+const feedbackTextarea = document.querySelector('textarea[name="feedback"]');
+const originalFeedbacksContainer = document.getElementById("original-feedbacks"); // Select the feedback container
+const database = firebase.database().ref("feedbacks"); // Reference to the "feedbacks" node in the database
+
+
+postFeedbackBtn.addEventListener("click", function (e) {
+  e.preventDefault();
+  const feedbackContent = feedbackTextarea.value.trim();
+
+  if (feedbackContent) {
+    const timestamp = new Date().toLocaleString(); // Get the current device timestamp
+    
+    // Push the feedback and timestamp to the database under a unique key
+    const newFeedbackRef = database.push();
+    newFeedbackRef.set({
+      content: feedbackContent,
+      timestamp: timestamp,
+    });
+
+    // Clear the textarea after posting the feedback
+    feedbackTextarea.value = "";
+  }
+});
+
+// Initialize the feedbacksByTimeRange object
+const feedbacksByTimeRange = {
+  "last-1-hour": [],
+  "last-24-hours": [],
+  "last-week": [],
+  "all": [],
+};
+
+// Event listener for dropdown menu options
+dropdownOptions.forEach((option) => {
+  option.addEventListener("click", (e) => {
+    const selectedTimeRange = e.target.getAttribute("data-time-range");
+    summarizeFeedbacks(selectedTimeRange);
+  });
+});
+
+// Function to filter and display feedbacks based on the selected time range
+function summarizeFeedbacks(selectedTimeRange) {
+  // Get the current timestamp
+  const currentTime = new Date();
+  
+  // Filter feedbacks based on the selected time range
+  const filteredFeedbacks = feedbacksByTimeRange[selectedTimeRange].filter((feedback) => {
+    const feedbackTimestamp = new Date(feedback.timestamp);
+    
+    if (selectedTimeRange === "last-1-hour") {
+      const oneHourAgo = new Date(currentTime.getTime() - 60 * 60 * 1000); // Calculate 1 hour ago
+      return feedbackTimestamp > oneHourAgo;
+    } else if (selectedTimeRange === "last-24-hours") {
+      const twentyFourHoursAgo = new Date(currentTime.getTime() - 24 * 60 * 60 * 1000); // Calculate 24 hours ago
+      return feedbackTimestamp > twentyFourHoursAgo;
+    } else if (selectedTimeRange === "last-week") {
+      const oneWeekAgo = new Date(currentTime.getTime() - 7 * 24 * 60 * 60 * 1000); // Calculate 1 week ago
+      return feedbackTimestamp > oneWeekAgo;
+    } else {
+      return true; // Show all feedbacks for "All"
+    }
+  });
+  
+  // Update the "Summery of Feedbacks" textarea with the filtered feedbacks
+  const summeryFeedbacksTextarea = document.getElementById("summery-feedbacks-textarea");
+  summeryFeedbacksTextarea.value = filteredFeedbacks.map((feedback) => {
+    return `${feedback.content} `;
+  }).join(" ");
+}
+
+
+// Listen for changes in the "feedbacks" node of the database
+database.on("child_added", function (snapshot) {
+  const feedback = snapshot.val();
+
+  // Add the feedback to the appropriate time range array
+  feedbacksByTimeRange["all"].push(feedback);
+  
+  const feedbackTimestamp = new Date(feedback.timestamp);
+  const currentTime = new Date();
+
+  if (currentTime - feedbackTimestamp <= 60 * 60 * 1000) {
+    feedbacksByTimeRange["last-1-hour"].push(feedback);
+  }
+
+  if (currentTime - feedbackTimestamp <= 24 * 60 * 60 * 1000) {
+    feedbacksByTimeRange["last-24-hours"].push(feedback);
+  }
+
+  if (currentTime - feedbackTimestamp <= 7 * 24 * 60 * 60 * 1000) {
+    feedbacksByTimeRange["last-week"].push(feedback);
+  }
+
+  // Create a new feedback element with a timestamp
+  const feedbackElement = document.createElement("div");
+  feedbackElement.classList.add("feedback");
+  feedbackElement.innerHTML = `
+    <p>${feedback.content}</p>
+    <span class="timestamp">Posted at: ${feedback.timestamp}</span>
+  `;
+
+  // Append the new feedback element to the original feedbacks container
+  originalFeedbacksContainer.appendChild(feedbackElement);
+});
+
+
+
+// Event listener for dropdown menu options
+dropdownOptions.forEach((option) => {
+  option.addEventListener("click", (e) => {
+    const selectedTimeRange = e.target.getAttribute("data-time-range");
+    summarizeFeedbacks(selectedTimeRange);
+  });
+});
+
+
+
 

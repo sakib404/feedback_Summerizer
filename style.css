@@ -211,3 +211,59 @@ header{
     border: 1px solid #86b0b6;
     white-space: pre-line; /* Allow line breaks */
   }
+
+/* Responsive styles for screens up to 990px wide */
+@media (max-width: 990px) {
+  header {
+    padding: 3px 3.5%;
+  }
+
+  .navlist {
+    position: absolute;
+    top: 70%;
+    right: -100%;
+    width: 250px;
+    height: 44vh;
+    background-color: darkslategrey;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex-direction: column;
+    padding: 50px 20px;
+    transition: all 0.55s ease;
+  }
+
+  .navlist a {
+    margin-left: 0;
+    display: block;
+    margin: 7px 0;
+  }
+
+  .navlist.open {
+    right: 0;
+  }
+
+  .feedback-box {
+    top: 15%;
+    left: 5%;
+    position: absolute;
+    width: 90%;
+    height: auto; /* Adjust height as needed */
+  }
+
+  .feedback-box h4 {
+    font-size: 16px;
+  }
+
+  .feedback-box textarea {
+    width: 100%;
+    height: 120px; /* Adjust height as needed */
+  }
+
+  .feedback-box button {
+    padding: 10px 20px; /* Adjust padding as needed */
+    font-size: 14px;
+  }
+}
+
+/* Additional responsive styles can be added as needed */
