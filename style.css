@@ -248,7 +248,7 @@ header{
     left: 5%;
     position: absolute;
     width: 90%;
-    height: auto; /* Adjust height as needed */
+    height: auto; 
   }
 
   .feedback-box h4 {
@@ -257,13 +257,11 @@ header{
 
   .feedback-box textarea {
     width: 100%;
-    height: 120px; /* Adjust height as needed */
+    height: 120px; 
   }
 
   .feedback-box button {
-    padding: 10px 20px; /* Adjust padding as needed */
+    padding: 10px 20px; 
     font-size: 14px;
   }
 }
-
-/* Additional responsive styles can be added as needed */
