@@ -70,8 +70,13 @@ dropdownOptions.forEach((option) => {
   });
 });
 
+// // Define your API endpoint and API key
+// const apiUrl = "https://api.openai.com/v1/chat/completions"; // Replace with your API endpoint
+// const apiKey = "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"; // Replace with your API key
+
+
 // Function to filter and display feedbacks based on the selected time range
-function summarizeFeedbacks(selectedTimeRange) {
+async function summarizeFeedbacks(selectedTimeRange) {
   // Get the current timestamp
   const currentTime = new Date();
   
@@ -98,6 +103,11 @@ function summarizeFeedbacks(selectedTimeRange) {
   summeryFeedbacksTextarea.value = filteredFeedbacks.map((feedback) => {
     return `${feedback.content} `;
   }).join(" ");
+  // Call the summarizeFeedback function to get the summary
+  const summary = summarizeFeedback(textToSummarize);
+
+  // Update the textarea with the summary
+  summeryFeedbacksTextarea.value = summary;
 }
 
 
@@ -144,6 +154,73 @@ dropdownOptions.forEach((option) => {
     summarizeFeedbacks(selectedTimeRange);
   });
 });
+
+
+const chatGPTEndpoint = "https://api.openai.com/v1/engines/davinci/completions";
+const apiKey = "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"; // Replace with your API key
+
+// Function to summarize text using the ChatGPT API
+async function summarizeFeedback(textToSummarize) {
+  try {
+    console.log("Text to summarize:", textToSummarize); // Debugging statement
+
+    const response = await fetch(chatGPTEndpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        prompt: "Summarize the following text:\n" + textToSummarize,
+        max_tokens: 100, // You can adjust the max tokens for the desired summary length
+      }),
+    });
+
+    const data = await response.json();
+
+    console.log("API Response:", data); // Debugging statement
+
+    if (data.choices && data.choices[0] && data.choices[0].text) {
+      return data.choices[0].text;
+    } else {
+      return "Summary not available. Check API response for details:\n" + JSON.stringify(data, null, 2);
+    }
+  } catch (error) {
+    console.error("Error summarizing feedback:", error);
+    return "Error summarizing feedback.";
+  }
+}
+
+
+// Event listener for the 'Summarize' button
+const summarizeButton = document.getElementById("summarize-feedback-btn");
+summarizeButton.addEventListener("click", async () => {
+  const textToSummarize = document.getElementById("summery-feedbacks-textarea").value.trim(); // Get text from the "summery-feedbacks-textarea"
+
+  if (textToSummarize === "") {
+    alert("Please provide feedback text before summarizing.");
+    return;
+  }
+
+  // Call the summarizeFeedback function to get the summary
+  const summary = await summarizeFeedback(textToSummarize);
+
+  // Update the "Summary of Collective Original Feedback" textarea with the summary
+  const summaryFeedbacksTextarea = document.getElementById("feedbacks-textarea");
+  summaryFeedbacksTextarea.value = summary;
+});
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

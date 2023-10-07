@@ -39,24 +39,30 @@
             <textarea name="feedback" placeholder="Write your feedback..."></textarea>
             <button id="post-feedback-btn" type="submit">Post Feedback</button>
             <div class="dropdown">
-                <button type="submit">Summarize Feedback</button>
+                <button type="submit">Show Feedback of</button>
                 <div class="dropdown-options">
                     <a href="#" data-time-range="last-1-hour">Last 1 hour</a>
-                    <a href="#" data-time-range="last-24-hours">Last 24 Hours</a>
+                    <a href="#" data-time-range="last-24-hours">Last 24 hours</a>
                     <a href="#" data-time-range="last-week">Last Week</a>
                     <a href="#" data-time-range="all">All</a>
                 </div>
             </div>
         </form><br><br>
 
-        <h4>Summery of Feedbacks:</h4>
-        <form action="#" class="summery-feedbacks">
+        <h4>Original Feedback Collectively:</h4>
+        <form action="#" class="feedbacks">
             <textarea id="summery-feedbacks-textarea" name="feedback" placeholder="" readonly></textarea>
         </form>
-        <br>
+        <button id="summarize-feedback-btn" type="submit">Summarize</button>
+        <br><br>
+        <h4>Summary of Collective Original Feedback:</h4>
+        <form action="#" class="summery-feedbacks">
+            <textarea id="feedbacks-textarea" name="feedback" placeholder="" readonly></textarea>
+        </form>
+        <br><br>
 
 
-        <h4>Original Feedbacks:</h4>
+        <h4>Original Feedback:</h4>
         <div id="original-feedbacks" class="original-feedbacks-container">
             <!-- Original Feedbacks will be dynamically added here -->
         </div>
